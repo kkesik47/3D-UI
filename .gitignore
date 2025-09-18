@@ -1,0 +1,25 @@
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+Obj/
+*.csproj
+*.sln
+*.user
+*.unityproj
+*.pidb
+*.booproj
+.vs/
+.vscode/
+.gradle/
+*.apk
+*.aab
+# Addressables/Cache
+[Aa]sset[Ss]tore/
+[Aa]ssets/AddressableAssetsData/*/platformsettings.json
+# OS junk
+.DS_Store
+Thumbs.db
