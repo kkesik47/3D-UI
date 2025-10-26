@@ -1,0 +1,103 @@
+2025-10-23 17:29:57.486 +02:00 [INF] Initializing Coplay services
+2025-10-23 17:29:57.511 +02:00 [INF] Initializing EditorThreadHelper
+2025-10-23 17:29:57.511 +02:00 [INF] EditorThreadHelper initialized successfully
+2025-10-23 17:29:57.532 +02:00 [INF] Enabling console error detection
+2025-10-23 17:29:57.548 +02:00 [INF] Found 0 errors via direct console query (cached)
+2025-10-23 17:29:57.549 +02:00 [INF] ConsoleDebugButtonService initializing
+2025-10-23 17:29:57.552 +02:00 [INF] Console debug button is enabled, adding button
+2025-10-23 17:29:57.552 +02:00 [INF] Enabling console debug button
+2025-10-23 17:29:57.553 +02:00 [INF] === Starting console button injection ===
+2025-10-23 17:29:57.554 +02:00 [INF] Found 1 console window instances
+2025-10-23 17:29:57.558 +02:00 [DBG] Console window found, attempting to add button
+2025-10-23 17:29:57.572 +02:00 [DBG] Initial error state: False
+2025-10-23 17:29:57.573 +02:00 [WRN] Could not find toolbar by child count, trying alternative search
+2025-10-23 17:29:57.575 +02:00 [DBG] Could not find console toolbar - adding button to root instead
+2025-10-23 17:29:57.577 +02:00 [DBG] Logo texture load result: null
+2025-10-23 17:29:57.577 +02:00 [DBG] Logo texture not loaded yet, will retry after small delay
+2025-10-23 17:29:57.582 +02:00 [INF] Debug button added with absolute positioning (centered), initial visibility: hidden
+2025-10-23 17:29:57.583 +02:00 [INF] Copy button added (always visible), initial position: near logo
+2025-10-23 17:29:57.584 +02:00 [DBG] UpdateButtonVisibility called - hasErrors: False, _debugButton: exists
+2025-10-23 17:29:57.584 +02:00 [INF] Debug With AI button successfully injected into console
+2025-10-23 17:29:57.585 +02:00 [INF] Subscribed to error detection
+2025-10-23 17:29:57.585 +02:00 [INF] ConsoleDebugButtonService initialized
+2025-10-23 17:30:20.428 +02:00 [INF] No existing action records JSON file found.
+2025-10-23 17:30:25.259 +02:00 [INF] Found 0 errors via direct console query (cached)
+2025-10-23 17:30:25.259 +02:00 [INF] No startup errors found after delayed check
+2025-10-23 17:30:25.263 +02:00 [DBG] Logo texture retry load result: success
+2025-10-23 17:30:25.263 +02:00 [INF] Coplay logo added (always visible) after retry
+2025-10-23 17:30:25.264 +02:00 [DBG] UpdateButtonVisibility called - hasErrors: False, _debugButton: exists
+2025-10-23 17:31:41.851 +02:00 [INF] Found git repository in parent at C:\Users\User\Desktop\3D-UI-PROJECT
+2025-10-23 17:31:41.933 +02:00 [INF] No state file found, maintaining Initialized state for fresh installation
+2025-10-23 17:31:41.985 +02:00 [INF] No request found, returning empty.
+2025-10-23 17:31:42.016 +02:00 [INF] No MCP servers configuration found
+2025-10-23 17:31:42.017 +02:00 [INF] MCP host initialized
+2025-10-23 17:31:42.086 +02:00 [INF] Context file not found: C:\Users\User\Desktop\3D-UI-PROJECT\Packages\Coplay\Editor\CoplayLogs\context_items.json
+2025-10-23 17:31:42.088 +02:00 [INF] Checking for dependencies in: C:\Users\User\Desktop\3D-UI-PROJECT\Packages\Coplay\Editor\Binaries
+2025-10-23 17:31:42.088 +02:00 [INF] Ripgrep directory not found
+2025-10-23 17:31:42.164 +02:00 [INF] Checking for dependencies in: C:\Users\User\Desktop\3D-UI-PROJECT\Packages\Coplay\Editor\Binaries
+2025-10-23 17:31:42.165 +02:00 [INF] Ripgrep directory not found
+2025-10-23 17:31:42.167 +02:00 [INF] Showing dependency download screen
+2025-10-23 17:31:44.999 +02:00 [INF] Creating Binaries directory at: C:\Users\User\Desktop\3D-UI-PROJECT\Packages\Coplay\Editor\Binaries
+2025-10-23 17:32:36.047 +02:00 [INF] Checking for executable in: C:\Users\User\Desktop\3D-UI-PROJECT\Packages\Coplay\Editor\Binaries\ripgrep\x86_64
+2025-10-23 17:32:36.048 +02:00 [INF] Looking for executable at: C:\Users\User\Desktop\3D-UI-PROJECT\Packages\Coplay\Editor\Binaries\ripgrep\x86_64\rg.exe
+2025-10-23 17:32:36.049 +02:00 [INF] Set executable permissions successfully
+2025-10-23 17:32:50.581 +02:00 [INF] Dependency installation completed successfully
+2025-10-23 17:32:57.523 +02:00 [INF] Successfully got device ID: cpl-device-55e55811-6447-43b2-978a-bd52ab559df4
+2025-10-23 17:33:49.468 +02:00 [INF] Saving state
+2025-10-23 17:33:49.557 +02:00 [INF] Clearing All
+2025-10-23 17:33:49.558 +02:00 [INF] Clearing state model
+2025-10-23 17:33:49.559 +02:00 [WRN] You are setting to the same state: Initialized
+2025-10-23 17:33:50.632 +02:00 [INF] Clearing All
+2025-10-23 17:33:50.633 +02:00 [INF] Clearing state model
+2025-10-23 17:33:50.633 +02:00 [WRN] You are setting to the same state: Initialized
+2025-10-23 17:33:50.655 +02:00 [INF] Cleaned up all thumbnail textures
+2025-10-23 17:33:50.660 +02:00 [INF] AssistantController: Dispose called
+2025-10-23 17:33:50.661 +02:00 [INF] FunctionExecutionController: Dispose called
+2025-10-23 17:33:53.439 +02:00 [INF] Loading state from file, and setting to: Initialized
+2025-10-23 17:33:53.443 +02:00 [INF] No request found, returning empty.
+2025-10-23 17:33:53.444 +02:00 [INF] No MCP servers configuration found
+2025-10-23 17:33:53.444 +02:00 [INF] MCP host initialized
+2025-10-23 17:33:53.446 +02:00 [INF] Loaded 0 scroll positions from disk
+2025-10-23 17:33:53.450 +02:00 [INF] Context file not found: C:\Users\User\Desktop\3D-UI-PROJECT\Packages\Coplay\Editor\CoplayLogs\context_items.json
+2025-10-23 17:33:53.450 +02:00 [INF] Checking for dependencies in: C:\Users\User\Desktop\3D-UI-PROJECT\Packages\Coplay\Editor\Binaries
+2025-10-23 17:33:53.450 +02:00 [INF] Executable at C:\Users\User\Desktop\3D-UI-PROJECT\Packages\Coplay\Editor\Binaries\ripgrep\x86_64\rg.exe exists: True
+2025-10-23 17:33:53.483 +02:00 [INF] Checking for dependencies in: C:\Users\User\Desktop\3D-UI-PROJECT\Packages\Coplay\Editor\Binaries
+2025-10-23 17:33:53.483 +02:00 [INF] Executable at C:\Users\User\Desktop\3D-UI-PROJECT\Packages\Coplay\Editor\Binaries\ripgrep\x86_64\rg.exe exists: True
+2025-10-23 17:33:53.744 +02:00 [WRN] No refresh token found
+2025-10-23 17:33:53.748 +02:00 [WRN] Unauthorized access to subscription endpoint
+2025-10-23 17:33:55.007 +02:00 [INF] Clearing All
+2025-10-23 17:33:55.007 +02:00 [INF] Clearing state model
+2025-10-23 17:33:55.007 +02:00 [WRN] You are setting to the same state: Initialized
+2025-10-23 17:33:55.010 +02:00 [INF] Cleaned up all thumbnail textures
+2025-10-23 17:33:55.010 +02:00 [INF] AssistantController: Dispose called
+2025-10-23 17:33:55.010 +02:00 [INF] FunctionExecutionController: Dispose called
+2025-10-23 17:34:59.653 +02:00 [WRN] No refresh token found
+2025-10-23 17:34:59.655 +02:00 [WRN] Unauthorized access to subscription endpoint
+2025-10-23 17:38:53.769 +02:00 [WRN] No refresh token found
+2025-10-23 17:38:53.770 +02:00 [WRN] Unauthorized access to subscription endpoint
+2025-10-23 17:39:43.477 +02:00 [DBG] Compilation finished, refreshing error state
+2025-10-23 17:40:25.348 +02:00 [DBG] Compilation finished, refreshing error state
+2025-10-23 17:43:18.201 +02:00 [INF] Found 0 errors via direct console query (cached)
+2025-10-23 17:43:18.202 +02:00 [INF] Found 0 errors via direct console query (cached)
+2025-10-23 17:43:53.731 +02:00 [WRN] No refresh token found
+2025-10-23 17:43:53.733 +02:00 [WRN] Unauthorized access to subscription endpoint
+2025-10-23 17:48:53.875 +02:00 [WRN] No refresh token found
+2025-10-23 17:48:53.876 +02:00 [WRN] Unauthorized access to subscription endpoint
+2025-10-23 17:53:53.908 +02:00 [WRN] No refresh token found
+2025-10-23 17:53:53.909 +02:00 [WRN] Unauthorized access to subscription endpoint
+2025-10-23 17:58:54.006 +02:00 [WRN] No refresh token found
+2025-10-23 17:58:54.007 +02:00 [WRN] Unauthorized access to subscription endpoint
+2025-10-23 18:03:54.027 +02:00 [WRN] No refresh token found
+2025-10-23 18:03:54.028 +02:00 [WRN] Unauthorized access to subscription endpoint
+2025-10-23 18:08:54.123 +02:00 [WRN] No refresh token found
+2025-10-23 18:08:54.124 +02:00 [WRN] Unauthorized access to subscription endpoint
+2025-10-23 18:12:45.662 +02:00 [WRN] Console reflection query failed: Exception has been thrown by the target of an invocation.
+2025-10-23 18:12:45.664 +02:00 [INF] Cached error state is stale (1767.5s old), returning empty
+2025-10-23 18:13:15.282 +02:00 [DBG] Compilation finished, refreshing error state
+2025-10-23 18:13:25.296 +02:00 [DBG] Compilation finished, refreshing error state
+2025-10-23 18:15:12.233 +02:00 [INF] Found 0 errors via direct console query (cached)
+2025-10-23 18:15:12.234 +02:00 [INF] Found 0 errors via direct console query (cached)
+2025-10-23 18:15:12.502 +02:00 [WRN] No refresh token found
+2025-10-23 18:15:12.503 +02:00 [WRN] Unauthorized access to subscription endpoint
+2025-10-23 18:20:12.793 +02:00 [WRN] No refresh token found
+2025-10-23 18:20:12.795 +02:00 [WRN] Unauthorized access to subscription endpoint
