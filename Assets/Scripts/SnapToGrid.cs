@@ -6,6 +6,7 @@ public class SnapToGrid : MonoBehaviour
     public float snapDistance = 0.1f;
     [SerializeField] Renderer[] renderers;
     [SerializeField] LayerMask placedMask;
+    [SerializeField] Color initialColor = Color.green;
 
     // Track which grid cells this piece currently occupies
     readonly List<Vector3> occupiedByThisPiece = new();
@@ -26,7 +27,7 @@ public class SnapToGrid : MonoBehaviour
         }
 
         // Color feedback
-        SetColor(overlapsPlaced || !placementValid ? Color.red : Color.green);
+        SetColor(overlapsPlaced || !placementValid ? Color.red : initialColor);
 
         // If valid and close enough, snap + commit occupancy
         if (!overlapsPlaced && placementValid && snapDelta.magnitude <= snapDistance)
@@ -143,7 +144,7 @@ public class SnapToGrid : MonoBehaviour
         // Optional: rotation snap first (if you added this helper)
         // transform.rotation = GetSnappedRotation(transform.rotation);
 
-        // --- 3) Predict each other cell’s landing grid position using SAME delta
+        // --- 3) Predict each other cellâ€™s landing grid position using SAME delta
         foreach (var c in cells)
         {
             Vector3 predictedWorld = c.transform.position + deltaToSnap;
