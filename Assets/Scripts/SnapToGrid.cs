@@ -12,6 +12,12 @@ public class SnapToGrid : MonoBehaviour
     readonly List<Vector3> occupiedByThisPiece = new();
     bool isPlaced = false;
 
+    
+    void Start()
+    {
+        SetColor(initialColor);
+    }
+    
     // ====== UPDATE LOOP ======
     void Update()
     {
@@ -27,7 +33,7 @@ public class SnapToGrid : MonoBehaviour
         }
 
         // Color feedback
-        SetColor(overlapsPlaced || !placementValid ? Color.red : initialColor);
+        SetColor(overlapsPlaced ? Color.red : initialColor);
 
         // If valid and close enough, snap + commit occupancy
         if (!overlapsPlaced && placementValid && snapDelta.magnitude <= snapDistance)
