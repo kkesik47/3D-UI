@@ -17,7 +17,7 @@ public class SnapToGrid : MonoBehaviour
     {
         SetColor(initialColor);
     }
-    
+
     // ====== UPDATE LOOP ======
     void Update()
     {
@@ -32,7 +32,7 @@ public class SnapToGrid : MonoBehaviour
             placementValid = ComputePlacement(out targetGridPositions, out snapDelta);
         }
 
-        // Color feedback
+        // Color feedback: red ONLY when overlapping other placed pieces
         SetColor(overlapsPlaced ? Color.red : initialColor);
 
         // If valid and close enough, snap + commit occupancy
@@ -44,8 +44,6 @@ public class SnapToGrid : MonoBehaviour
             // Move whole piece into alignment
             transform.position += snapDelta;
 
-
-
             // Clear previous occupancy, then set new
             ClearFromGrid();
             foreach (var gpos in targetGridPositions)
@@ -53,14 +51,11 @@ public class SnapToGrid : MonoBehaviour
             occupiedByThisPiece.Clear();
             occupiedByThisPiece.AddRange(targetGridPositions);
 
-            // NEW: print after placing
+            // Debug
             GridManager.Instance.DebugPrintGrid($"After PLACE: {name}");
 
-            // Optional: check win
-            if (GridManager.Instance.IsGridFull())
-            {
-                // TODO: trigger win UI / SFX
-            }
+            // Mark as placed
+            isPlaced = true;
 
             // Put the object on "Placed" layer so your overlap filter works
             int placed = LayerMask.NameToLayer("Placed");
@@ -68,14 +63,23 @@ public class SnapToGrid : MonoBehaviour
         }
         else
         {
-            // While moving or invalid -> not placed
+            // While not in a valid snapped state, use Default layer
             int def = LayerMask.NameToLayer("Default");
             SetLayerRecursively(gameObject, def);
-            // Do not ClearFromGrid() here; only clear when you actually grab/move away.
-            // If you want to free as soon as invalid, uncomment:
-            // ClearFromGrid();
+
+            // IMPORTANT PART:
+            // If this piece WAS placed before, but now the snap condition failed,
+            // it means we've started moving it away -> free its cells once.
+            if (isPlaced)
+            {
+                ClearFromGrid();
+                isPlaced = false;
+            }
+
+            // (Do NOT touch grid if it was never placed)
         }
     }
+
 
     // ====== HELPERS ======
 
