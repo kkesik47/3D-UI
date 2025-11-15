@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Oculus.Interaction;
+
 
 public class SnapToGrid : MonoBehaviour
 {
@@ -11,32 +13,53 @@ public class SnapToGrid : MonoBehaviour
     // Track which grid cells this piece currently occupies
     readonly List<Vector3> occupiedByThisPiece = new();
     bool isPlaced = false;
+    bool isGrabbed = false; // true while the user is holding this shape
+    Grabbable grabbable;
+    bool wasGrabbed = false; // previous frame
 
-    
+
+
     void Start()
     {
         SetColor(initialColor);
+
+        grabbable = GetComponent<Grabbable>();
+        if (grabbable == null)
+            Debug.LogWarning($"SnapToGrid on {name} did not find a Grabbable component.");
     }
 
     // ====== UPDATE LOOP ======
     void Update()
     {
+        // 1) Detect grab state from Oculus.Interaction.Grabbable
+        bool grabbedNow = grabbable != null && grabbable.SelectingPointsCount > 0;
+
+        // If it was not grabbed last frame but is grabbed now -> just grabbed
+        if (grabbedNow && !wasGrabbed)
+        {
+            // Free any cells this piece had occupied
+            ClearFromGrid();
+        }
+
+        wasGrabbed = grabbedNow;
+
         bool overlapsPlaced = PhysicsOverlapPlaced();
         bool placementValid = false;
         Vector3 snapDelta = Vector3.zero;
         List<Vector3> targetGridPositions = null;
 
-        // Compute prospective grid positions for all child ShapeCells
+        // 2) Compute prospective grid positions for all child ShapeCells
         if (!overlapsPlaced)
         {
             placementValid = ComputePlacement(out targetGridPositions, out snapDelta);
         }
 
-        // Color feedback: red ONLY when overlapping other placed pieces
+        // 3) Color feedback: red only when overlapping another placed object
         SetColor(overlapsPlaced ? Color.red : initialColor);
 
-        // If valid and close enough, snap + commit occupancy
-        if (!overlapsPlaced && placementValid && snapDelta.magnitude <= snapDistance)
+        // 4) If valid and close enough, snap + commit occupancy
+        //    ONLY when not currently grabbed
+        if (!grabbedNow && !overlapsPlaced && placementValid && snapDelta.magnitude <= snapDistance)
         {
             // Snap rotation first
             transform.rotation = GetSnappedRotation(transform.rotation);
@@ -51,11 +74,13 @@ public class SnapToGrid : MonoBehaviour
             occupiedByThisPiece.Clear();
             occupiedByThisPiece.AddRange(targetGridPositions);
 
-            // Debug
             GridManager.Instance.DebugPrintGrid($"After PLACE: {name}");
 
-            // Mark as placed
-            isPlaced = true;
+            // Optional: check win
+            if (GridManager.Instance.IsGridFull())
+            {
+                // TODO: trigger win UI / SFX
+            }
 
             // Put the object on "Placed" layer so your overlap filter works
             int placed = LayerMask.NameToLayer("Placed");
@@ -63,20 +88,10 @@ public class SnapToGrid : MonoBehaviour
         }
         else
         {
-            // While not in a valid snapped state, use Default layer
+            // While moving or invalid -> not placed
             int def = LayerMask.NameToLayer("Default");
             SetLayerRecursively(gameObject, def);
-
-            // IMPORTANT PART:
-            // If this piece WAS placed before, but now the snap condition failed,
-            // it means we've started moving it away -> free its cells once.
-            if (isPlaced)
-            {
-                ClearFromGrid();
-                isPlaced = false;
-            }
-
-            // (Do NOT touch grid if it was never placed)
+            // Do not ClearFromGrid() here; only when grabbed or when re-placing.
         }
     }
 
@@ -200,7 +215,15 @@ public class SnapToGrid : MonoBehaviour
     // Optional hooks you can call from a grab script / Meta XR events:
     public void OnGrabbed()
     {
+        isGrabbed = true;
+
+        // If this piece was already snapped before, free its cells
         ClearFromGrid();
     }
-    public void OnReleased() { /* no-op; Update() will handle snapping/occupancy */ }
+
+    public void OnReleased()
+    {
+        isGrabbed = false;
+        // We do NOT snap here – Update() will snap on the next frame
+    }
 }
