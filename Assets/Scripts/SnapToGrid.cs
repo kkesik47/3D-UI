@@ -3,29 +3,33 @@ using UnityEngine;
 using Oculus.Interaction;
 
 
+
+
 public class SnapToGrid : MonoBehaviour
 {
     public float snapDistance = 0.1f;
     [SerializeField] Renderer[] renderers;
-    [SerializeField] LayerMask placedMask;
     [SerializeField] Color initialColor = Color.green;
 
     // Track which grid cells this piece currently occupies
     readonly List<Vector3> occupiedByThisPiece = new();
-    bool isPlaced = false;
-    bool isGrabbed = false; // true while the user is holding this shape
     Grabbable grabbable;
     bool wasGrabbed = false; // previous frame
+
+    [Header("Overlap Detection")]
+    public float overlapRadius = 0.6f;   // tweak in Inspector to match your shape size
+
 
 
 
     void Start()
     {
+        if (renderers == null || renderers.Length == 0)
+            renderers = GetComponentsInChildren<Renderer>();
+
         SetColor(initialColor);
 
         grabbable = GetComponent<Grabbable>();
-        if (grabbable == null)
-            Debug.LogWarning($"SnapToGrid on {name} did not find a Grabbable component.");
     }
 
     // ====== UPDATE LOOP ======
@@ -43,7 +47,7 @@ public class SnapToGrid : MonoBehaviour
 
         wasGrabbed = grabbedNow;
 
-        bool overlapsPlaced = PhysicsOverlapPlaced();
+        bool overlapsPlaced = IsOverlappingOtherShape();
         bool placementValid = false;
         Vector3 snapDelta = Vector3.zero;
         List<Vector3> targetGridPositions = null;
@@ -55,7 +59,8 @@ public class SnapToGrid : MonoBehaviour
         }
 
         // 3) Color feedback: red only when overlapping another placed object
-        SetColor(overlapsPlaced ? Color.red : initialColor);
+        Color targetColor = (grabbedNow && overlapsPlaced) ? Color.red : initialColor;
+        SetColor(targetColor);
 
         // 4) If valid and close enough, snap + commit occupancy
         //    ONLY when not currently grabbed
@@ -109,25 +114,6 @@ public class SnapToGrid : MonoBehaviour
         return Quaternion.Euler(euler);
     }
 
-    bool PhysicsOverlapPlaced()
-    {
-        foreach (var c in GetComponentsInChildren<Collider>())
-        {
-            if (!c.enabled || c.isTrigger) continue;
-            var center = c.bounds.center;
-            var halfExtents = c.bounds.extents;
-            var rotation = c.transform.rotation;
-
-            var shrink = 0.02f;
-            var hits = Physics.OverlapBox(center, halfExtents - Vector3.one * shrink, rotation, LayerMask.GetMask("Placed"));
-            foreach (var h in hits)
-            {
-                if (h.transform.root == transform.root) continue;
-                return true;
-            }
-        }
-        return false;
-    }
 
     // Build the intended grid positions for all ShapeCells and check if all are free.
     // Also compute how far we have to move the piece to align the first cell to the grid.
@@ -201,9 +187,16 @@ public class SnapToGrid : MonoBehaviour
 
     void SetColor(Color c)
     {
-        if (renderers == null) return;
-        foreach (var r in renderers) r.material.color = c;
+        if (renderers == null || renderers.Length == 0) return;
+
+        foreach (var r in renderers)
+        {
+            if (!r) continue;
+            var mat = r.material;
+            mat.color = c;
+        }
     }
+
 
     void SetLayerRecursively(GameObject obj, int layer)
     {
@@ -213,17 +206,45 @@ public class SnapToGrid : MonoBehaviour
     }
 
     // Optional hooks you can call from a grab script / Meta XR events:
-    public void OnGrabbed()
-    {
-        isGrabbed = true;
 
-        // If this piece was already snapped before, free its cells
-        ClearFromGrid();
-    }
 
-    public void OnReleased()
+    bool IsOverlappingOtherShape()
     {
-        isGrabbed = false;
-        // We do NOT snap here – Update() will snap on the next frame
+        // All unit cubes in THIS shape
+        var myCells = GetComponentsInChildren<ShapeCell>();
+        if (myCells.Length == 0) return false;
+
+        // How close two cubes can be before we consider it "overlapping"
+        float cell = GridManager.Instance.cellSize;
+        float threshold = cell * 0.08f;   // tweak if needed
+        float thresholdSqr = threshold * threshold;
+
+        // Check against all other shapes
+        var allShapes = FindObjectsOfType<SnapToGrid>();
+        foreach (var other in allShapes)
+        {
+            if (other == this) continue; // skip self
+
+            var otherCells = other.GetComponentsInChildren<ShapeCell>();
+            foreach (var a in myCells)
+            {
+                Vector3 pa = a.transform.position;
+
+                foreach (var b in otherCells)
+                {
+                    Vector3 pb = b.transform.position;
+                    float distSqr = (pa - pb).sqrMagnitude;
+
+                    if (distSqr < thresholdSqr)
+                    {
+                        // Uncomment for debugging:
+                        // Debug.Log($"{name} overlapping with {other.name}");
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }
