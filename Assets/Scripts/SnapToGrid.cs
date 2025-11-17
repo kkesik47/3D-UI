@@ -16,6 +16,13 @@ public class SnapToGrid : MonoBehaviour
     Grabbable grabbable;
     bool wasGrabbed = false; // previous frame
 
+    // NEW: are we currently snapped into the grid?
+    bool isSnapped = false;
+
+    // 🔊 Audio when this shape snaps into the grid
+    [Header("Audio Feedback")]
+    public AudioSource snapAudio;
+
     [Header("Overlap Detection")]
     public float overlapRadius = 0.6f;   // tweak in Inspector to match your shape size
 
@@ -35,8 +42,12 @@ public class SnapToGrid : MonoBehaviour
     // ====== UPDATE LOOP ======
     void Update()
     {
+        // Were we snapped last frame?
+        bool wasSnapped = isSnapped;
+        
         // 1) Detect grab state from Oculus.Interaction.Grabbable
         bool grabbedNow = grabbable != null && grabbable.SelectingPointsCount > 0;
+
 
         // If it was not grabbed last frame but is grabbed now -> just grabbed
         if (grabbedNow && !wasGrabbed)
@@ -90,7 +101,27 @@ public class SnapToGrid : MonoBehaviour
             // Put the object on "Placed" layer so your overlap filter works
             int placed = LayerMask.NameToLayer("Placed");
             SetLayerRecursively(gameObject, placed);
+
+            // --- 5) Update snapped state & play audio on transition ---
+
+            // We consider ourselves "snapped" if the same condition as the snap block is true
+            bool nowSnapped = (!grabbedNow &&
+                               !overlapsPlaced &&
+                               placementValid &&
+                               snapDelta.magnitude <= snapDistance);
+
+            // Snap event = we were NOT snapped before, and we ARE snapped now
+            if (!wasSnapped && nowSnapped && snapAudio != null)
+            {
+                snapAudio.Play();
+            }
+
+            // Update state for next frame
+            isSnapped = nowSnapped;
         }
+
+
+
         else
         {
             // While moving or invalid -> not placed
@@ -180,6 +211,10 @@ public class SnapToGrid : MonoBehaviour
         foreach (var gpos in occupiedByThisPiece)
             GridManager.Instance.SetOccupied(gpos, false);
         occupiedByThisPiece.Clear();
+
+
+        // We are no longer placed/snapped
+        isSnapped = false;
 
         // NEW: print after clearing
         GridManager.Instance.DebugPrintGrid($"After CLEAR: {name}");
