@@ -26,7 +26,12 @@ public class SnapToGrid : MonoBehaviour
     [Header("Overlap Detection")]
     public float overlapRadius = 0.6f;   // tweak in Inspector to match your shape size
 
+    [Header("Ghost Preview")]
+    public Material ghostBaseMaterial;     // assign GhostBaseMat here
+    [Range(0f, 1f)] public float ghostAlpha = 0.15f;
 
+    GameObject ghost;
+    Renderer[] ghostRenderers;
 
 
     void Start()
@@ -37,6 +42,38 @@ public class SnapToGrid : MonoBehaviour
         SetColor(initialColor);
 
         grabbable = GetComponent<Grabbable>();
+
+        // ---------- Create ghost clone ----------
+        ghost = Instantiate(gameObject, transform.position, transform.rotation, transform.parent);
+        ghost.name = name + "_Ghost";
+
+        // Remove gameplay components from ghost
+        DestroyImmediate(ghost.GetComponent<SnapToGrid>());
+        DestroyImmediate(ghost.GetComponent<Grabbable>());
+        DestroyImmediate(ghost.GetComponent<Rigidbody>());
+        foreach (var col in ghost.GetComponentsInChildren<Collider>())
+            Destroy(col);
+        foreach (var audio in ghost.GetComponentsInChildren<AudioSource>())
+            Destroy(audio);
+
+        // Grab its renderers and assign ghostBaseMaterial instances
+        ghostRenderers = ghost.GetComponentsInChildren<Renderer>();
+        foreach (var r in ghostRenderers)
+        {
+            if (!r) continue;
+            if (ghostBaseMaterial != null)
+            {
+                // Use a fresh instance of the transparent base
+                r.material = new Material(ghostBaseMaterial);
+            }
+            else
+            {
+                // Fallback: clone original, but note this may still be opaque
+                r.material = new Material(r.material);
+            }
+        }
+
+        ghost.SetActive(false);
     }
 
     // ====== UPDATE LOOP ======
@@ -58,10 +95,17 @@ public class SnapToGrid : MonoBehaviour
 
         wasGrabbed = grabbedNow;
 
+        // --- NEW: compute placement using SNAPPED rotation ---
+        Quaternion originalRot = transform.rotation;
+        Quaternion snappedRot = GetSnappedRotation(originalRot);
+
         bool overlapsPlaced = IsOverlappingOtherShape();
         bool placementValid = false;
         Vector3 snapDelta = Vector3.zero;
         List<Vector3> targetGridPositions = null;
+
+        // Temporarily rotate to snapped orientation for the math
+        transform.rotation = snappedRot;
 
         // 2) Compute prospective grid positions for all child ShapeCells
         if (!overlapsPlaced)
@@ -69,16 +113,51 @@ public class SnapToGrid : MonoBehaviour
             placementValid = ComputePlacement(out targetGridPositions, out snapDelta);
         }
 
+        // Restore original rotation for rendering while holding
+        transform.rotation = originalRot;
+
         // 3) Color feedback: red only when overlapping another placed object
         Color targetColor = (grabbedNow && overlapsPlaced) ? Color.red : initialColor;
         SetColor(targetColor);
 
+        // One unified condition for "this pose can snap"
+        bool canSnap = !overlapsPlaced &&
+                       placementValid &&
+                       snapDelta.magnitude <= snapDistance;
+
+        // ---------- GHOST PREVIEW ----------
+        if (ghost != null)
+        {
+            if (grabbedNow && canSnap)
+            {
+                ghost.SetActive(true);
+
+                // EXACT final pose: snapped rotation + snapped translation
+                ghost.transform.rotation = snappedRot;
+                ghost.transform.position = transform.position + snapDelta;
+
+                Color c = initialColor;
+                c.a = ghostAlpha;
+                foreach (var r in ghostRenderers)
+                {
+                    if (!r) continue;
+                    var mat = r.material;
+                    mat.color = c;
+                }
+            }
+            else
+            {
+                ghost.SetActive(false);
+            }
+        }
+
         // 4) If valid and close enough, snap + commit occupancy
         //    ONLY when not currently grabbed
-        if (!grabbedNow && !overlapsPlaced && placementValid && snapDelta.magnitude <= snapDistance)
+        if (!grabbedNow && canSnap)
         {
             // Snap rotation first
-            transform.rotation = GetSnappedRotation(transform.rotation);
+            // Use the SAME snapped rotation we used for ComputePlacement and the ghost
+            transform.rotation = snappedRot;
 
             // Move whole piece into alignment
             transform.position += snapDelta;
@@ -118,6 +197,9 @@ public class SnapToGrid : MonoBehaviour
 
             // Update state for next frame
             isSnapped = nowSnapped;
+
+            if (ghost != null)
+                ghost.SetActive(false);
         }
 
 

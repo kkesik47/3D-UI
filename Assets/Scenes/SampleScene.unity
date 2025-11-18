@@ -1597,6 +1597,8 @@ MonoBehaviour:
   initialColor: {r: 0, g: 1, b: 0, a: 1}
   snapAudio: {fileID: 0}
   overlapRadius: 0.6
+  ghostBaseMaterial: {fileID: 0}
+  ghostAlpha: 0.25
 --- !u!1 &226762109
 GameObject:
   m_ObjectHideFlags: 0
@@ -2065,6 +2067,8 @@ MonoBehaviour:
   initialColor: {r: 1, g: 0.07843138, b: 0.5764706, a: 1}
   snapAudio: {fileID: 237971368}
   overlapRadius: 0.1
+  ghostBaseMaterial: {fileID: 2100000, guid: c6e2a0117eacb5c44997f39d0c1ee177, type: 2}
+  ghostAlpha: 0.1
 --- !u!82 &237971368
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2841,6 +2845,8 @@ MonoBehaviour:
   initialColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   snapAudio: {fileID: 309702911}
   overlapRadius: 0.1
+  ghostBaseMaterial: {fileID: 2100000, guid: c6e2a0117eacb5c44997f39d0c1ee177, type: 2}
+  ghostAlpha: 0.1
 --- !u!114 &309702903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9948,6 +9954,8 @@ MonoBehaviour:
   initialColor: {r: 0, g: 1, b: 0, a: 1}
   snapAudio: {fileID: 0}
   overlapRadius: 0.6
+  ghostBaseMaterial: {fileID: 0}
+  ghostAlpha: 0.25
 --- !u!114 &1207820012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10578,6 +10586,8 @@ MonoBehaviour:
   initialColor: {r: 0, g: 0.3921569, b: 0, a: 1}
   snapAudio: {fileID: 1286439816}
   overlapRadius: 0.1
+  ghostBaseMaterial: {fileID: 2100000, guid: c6e2a0117eacb5c44997f39d0c1ee177, type: 2}
+  ghostAlpha: 0.1
 --- !u!114 &1286439812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12167,6 +12177,8 @@ MonoBehaviour:
   initialColor: {r: 0.627451, g: 0.3215686, b: 0.1764706, a: 1}
   snapAudio: {fileID: 1377265308}
   overlapRadius: 0.1
+  ghostBaseMaterial: {fileID: 2100000, guid: c6e2a0117eacb5c44997f39d0c1ee177, type: 2}
+  ghostAlpha: 0.1
 --- !u!114 &1377265304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13730,6 +13742,8 @@ MonoBehaviour:
   initialColor: {r: 0.627451, g: 0.1254902, b: 0.9411765, a: 1}
   snapAudio: {fileID: 1529253619}
   overlapRadius: 0.1
+  ghostBaseMaterial: {fileID: 2100000, guid: c6e2a0117eacb5c44997f39d0c1ee177, type: 2}
+  ghostAlpha: 0.1
 --- !u!114 &1529253616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14330,6 +14344,8 @@ MonoBehaviour:
   initialColor: {r: 0, g: 1, b: 1, a: 1}
   snapAudio: {fileID: 1578891011}
   overlapRadius: 0.1
+  ghostBaseMaterial: {fileID: 2100000, guid: c6e2a0117eacb5c44997f39d0c1ee177, type: 2}
+  ghostAlpha: 0.1
 --- !u!114 &1578891003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15088,6 +15104,8 @@ MonoBehaviour:
   initialColor: {r: 1, g: 0.5205318, b: 0, a: 1}
   snapAudio: {fileID: 1621451285}
   overlapRadius: 0.1
+  ghostBaseMaterial: {fileID: 2100000, guid: c6e2a0117eacb5c44997f39d0c1ee177, type: 2}
+  ghostAlpha: 0.1
 --- !u!114 &1621451278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16932,6 +16950,8 @@ MonoBehaviour:
   initialColor: {r: 0.254902, g: 0.4117647, b: 0.882353, a: 1}
   snapAudio: {fileID: 1819147137}
   overlapRadius: 0.1
+  ghostBaseMaterial: {fileID: 2100000, guid: c6e2a0117eacb5c44997f39d0c1ee177, type: 2}
+  ghostAlpha: 0.1
 --- !u!114 &1819147134
 MonoBehaviour:
   m_ObjectHideFlags: 0
