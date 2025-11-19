@@ -3058,7 +3058,7 @@ GameObject:
   - component: {fileID: 307104724}
   - component: {fileID: 307104723}
   m_Layer: 5
-  m_Name: ResetMenu
+  m_Name: ResetMenu and ConditionMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6650,7 +6650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 1}
+  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6886,15 +6886,16 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: 'Your task in this game is to completely fill out the grid with the blocks,
-    which come in different shapes. You manipulate the blocks by grabbing them with
-    your hand and placing them in the grid.
+    which come in different shapes. You interact with the blocks by grabbing them
+    with either hand and placing them in the grid.
 
 
-    The goal of the game is complete
-    the grid with the fastest time possible.
+    The goal of the game is
+    fill out the grid with the given shapes, with the fastest time possible.
 
 
-    Good luck! :)
+    Good
+    luck! :)
 
 '
   m_isRightToLeft: 0
@@ -9059,7 +9060,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Welcome to 3D TETRIS!
+  m_text: Welcome to BloxTris!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -10010,6 +10011,7 @@ GameObject:
   - component: {fileID: 1120562222}
   - component: {fileID: 1120562223}
   - component: {fileID: 1120562225}
+  - component: {fileID: 1120562226}
   - component: {fileID: 1120562224}
   m_Layer: 0
   m_Name: GameManager
@@ -10198,6 +10200,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultSnapDistance: 0.1
+  currentCondition: 1
+--- !u!114 &1120562226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120562218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a97434a148b1f0940b7a9a576ddd98d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  completionTimes:
+  - 0
+  - 0
+  - 0
+  - 0
 --- !u!1 &1124732203
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,7 +28,27 @@ public class GameTimer : MonoBehaviour
         if (gridManager != null && gridManager.IsGridFull())
         {
             StopTimer();
+
+            // NEW: log completion time
+            var tracker = FindObjectOfType<ConditionTimeTracker>();
+            var snapManager = FindObjectOfType<SnapDistanceManager>();
+
+            if (tracker != null && snapManager != null)
+            {
+                tracker.RecordCompletionTime(
+                    snapManager.currentCondition,
+                    snapManager.currentSnapDistance,
+                    elapsedTime
+                );
+            }
+            else
+            {
+                Debug.LogWarning("[Study] Missing ConditionTimeTracker or SnapDistanceManager, not logging.");
+            }
+
             return;
+
+
         }
 
         // Otherwise tick
