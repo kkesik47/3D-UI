@@ -1,18 +1,14 @@
-// GridManager.cs  (replace file contents with this version)
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
     public static GridManager Instance;
-
     public float cellSize = 1f;
     [Tooltip("Max distance to accept a 'nearest' grid cell")]
     public float nearestSearchRadius;
-
     private Vector3 gridOrigin;
-
-    // Which grid cells exist + are occupied
+    
     private readonly Dictionary<Vector3, GridCube> cubeAt = new();
     private readonly Dictionary<Vector3, bool> occupied = new();
     public readonly List<Vector3> allGridPositions = new();
@@ -21,7 +17,7 @@ public class GridManager : MonoBehaviour
     {
         Instance = this;
         gridOrigin = transform.position;
-        nearestSearchRadius = cellSize * 0.6f; // Initialize here since it depends on cellSize
+        nearestSearchRadius = cellSize * 0.6f;
         AssignGridCubes();
     }
 
@@ -34,7 +30,6 @@ public class GridManager : MonoBehaviour
         var allCubes = GetComponentsInChildren<GridCube>();
         foreach (var cube in allCubes)
         {
-            // world -> grid (float)
             Vector3 local = cube.transform.position - gridOrigin;
             Vector3 gpos = new Vector3(local.x / cellSize, local.y / cellSize, local.z / cellSize);
 
@@ -65,8 +60,7 @@ public class GridManager : MonoBehaviour
     {
         return gridOrigin + new Vector3(gpos.x * cellSize, gpos.y * cellSize, gpos.z * cellSize);
     }
-
-    // Find the nearest *existing* grid cell to a world position
+    
     public bool TryGetNearestGridPos(Vector3 worldPos, out Vector3 nearestGPos, out Vector3 nearestWorld, out float dist)
     {
         nearestGPos = default; nearestWorld = default; dist = float.PositiveInfinity;
@@ -81,12 +75,9 @@ public class GridManager : MonoBehaviour
 
         return found && dist <= nearestSearchRadius;
     }
-
-    // Pretty-print the logical grid to the Console.
-    // Optional label helps you see WHEN it was printed.
+    
     public void DebugPrintGrid(string label = null)
     {
-        // Collect positions so we can print in a stable order (by Y, then Z, then X)
         var list = new List<Vector3>(allGridPositions);
         list.Sort((a, b) =>
         {
@@ -96,8 +87,7 @@ public class GridManager : MonoBehaviour
             if (cz != 0) return cz;
             return a.x.CompareTo(b.x);
         });
-
-        // Group by Y level for readability
+        
         System.Text.StringBuilder sb = new System.Text.StringBuilder();
         if (!string.IsNullOrEmpty(label)) sb.AppendLine($"[Grid Debug] {label}");
         sb.AppendLine($"CellSize={cellSize}, TotalCells={allGridPositions.Count}");
@@ -115,8 +105,7 @@ public class GridManager : MonoBehaviour
 
             bool occ = IsOccupied(g);
             if (occ) filled++;
-
-            // Print compact: (x,z): 1/0
+            
             sb.Append($"({g.x},{g.z}): {(occ ? 1 : 0)}   ");
         }
 

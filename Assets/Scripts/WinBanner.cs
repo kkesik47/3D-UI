@@ -3,12 +3,12 @@
 public class WinBanner : MonoBehaviour
 {
     public GridManager gridManager;
-    public GameObject winMenu;          // the UI panel you already show/hide
+    public GameObject winMenu; 
 
     [Header("Audio")]
-    public AudioSource victoryAudio;    // 👈 drag the AudioSource here in Inspector
+    public AudioSource victoryAudio;
 
-    bool wasFull = false;              // track last frame state
+    bool wasFull = false;
 
     void Update()
     {
@@ -16,11 +16,7 @@ public class WinBanner : MonoBehaviour
             return;
 
         bool isFull = gridManager.IsGridFull();
-
-        // Show / hide win menu (your existing behaviour)
         winMenu.SetActive(isFull);
-
-        // 🔊 Play victory sound only on the transition: not full -> full
         if (isFull && !wasFull)
         {
             if (victoryAudio != null)

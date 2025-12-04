@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class FaceCameraBillboard : MonoBehaviour
 {
-    public Transform target;     // drag your VR camera (CenterEyeAnchor/Main Camera)
-    public bool onlyYaw = true;  // face player but keep panel upright
-    public float smooth = 12f;   // rotation smoothing
+    public Transform target;
+    public bool onlyYaw = true; 
+    public float smooth = 12f; 
 
     void LateUpdate()
     {
@@ -17,7 +17,6 @@ public class FaceCameraBillboard : MonoBehaviour
         if (dir.sqrMagnitude < 0.00001f) return;
 
         Quaternion look = Quaternion.LookRotation(dir.normalized, Vector3.up);
-        // Smooth rotate to avoid jitter
         transform.rotation = Quaternion.Slerp(transform.rotation, look, 1f - Mathf.Exp(-smooth * Time.deltaTime));
     }
 }

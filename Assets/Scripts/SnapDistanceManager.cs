@@ -6,14 +6,12 @@ public class SnapDistanceManager : MonoBehaviour
     public float defaultSnapDistance = 0.1f;
 
     private SnapToGrid[] snapScripts;
-
-    // For logging
+    
     public int currentCondition { get; private set; } = 1;
     public float currentSnapDistance { get; private set; }
 
     void Awake()
     {
-        // Cache all SnapToGrid scripts in the scene
         snapScripts = FindObjectsOfType<SnapToGrid>();
         SetSnapDistanceInternal(defaultSnapDistance);
         currentSnapDistance = defaultSnapDistance;

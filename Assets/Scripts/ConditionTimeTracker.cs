@@ -32,7 +32,6 @@ public class ConditionTimeTracker : MonoBehaviour
         {
             using (var writer = new StreamWriter(FilePath, append: true))
             {
-                // If this is a new file, write header
                 if (!fileExists)
                 {
                     writer.WriteLine("timestamp,participant,condition,snapDistance,timeSeconds");
