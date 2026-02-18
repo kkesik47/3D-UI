@@ -73,19 +73,23 @@ public class SnapToGrid : MonoBehaviour
         
         if (grabbedNow && !wasGrabbed)
         {
+            //unsnap
             ClearFromGrid();
         }
 
         wasGrabbed = grabbedNow;
         Quaternion originalRot = transform.rotation;
+        //zaokrouhli na nejbližších 90 degrees
         Quaternion snappedRot = GetSnappedRotation(originalRot);
 
+        //překrývá se s jiným tvarem?
         bool overlapsPlaced = IsOverlappingOtherShape();
         bool placementValid = false;
         Vector3 snapDelta = Vector3.zero;
         List<Vector3> targetGridPositions = null;
         transform.rotation = snappedRot;
         
+        //pokud se s ničím nepřekrývá, tak vypočítat novou pozici, tak aby se snapnul správně k mřížce
         if (!overlapsPlaced)
         {
             placementValid = ComputePlacement(out targetGridPositions, out snapDelta);
@@ -95,6 +99,7 @@ public class SnapToGrid : MonoBehaviour
         Color targetColor = (grabbedNow && overlapsPlaced) ? Color.red : initialColor;
         SetColor(targetColor);
         
+        //pokud se s ničím nepřekrývá a 
         bool canSnap = !overlapsPlaced &&
                        placementValid &&
                        snapDelta.magnitude <= snapDistance;
